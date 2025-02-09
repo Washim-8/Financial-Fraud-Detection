@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FraudGuard AI - Advanced Financial Fraud Detection</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i data-lucide="shield-check"></i>
+                </div>
+                <div class="logo-text">FraudGuard <span class="badge badge-accent">AI ENGINE</span></div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 2rem;">
+                <a href="/" style="text-decoration:none; color:var(--primary); font-weight:700; font-size:0.9rem; border-bottom: 2px solid var(--primary); padding-bottom:2px;">Dashboard</a>
+                <a href="/about" style="text-decoration:none; color:var(--text-light); font-weight:500; font-size:0.9rem; transition:color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-light)'">About</a>
+                <a href="/about#contact" style="text-decoration:none; color:var(--text-light); font-weight:500; font-size:0.9rem; transition:color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-light)'">Contact</a>
+            </div>
+            <div class="system-status">
+                <div class="status-indicator active"></div>
+                <span id="modelStatus" style="font-weight: 500;">AI Engine Online</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Application Container -->
+    <div class="app-container">
+
+        <!-- Welcome Header -->
+        <header class="page-header">
+            <div>
+                <h1 class="page-title">Real-Time Risk Analysis</h1>
+                <p class="page-subtitle">Monitoring live transaction flow powered by Advanced XGBoost ML.</p>
+            </div>
+            <div class="header-actions">
+
+                <button class="btn btn-primary"
+                    onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});">
+                    <i data-lucide="target"></i>
+                    Test Predictor
+                </button>
+            </div>
+        </header>
+
+        <!-- Top Overview Stats -->
+        <section class="overview-stats">
+            <div class="stat-card" style="border-top: 4px solid var(--primary);">
+                <div class="stat-icon"><i data-lucide="activity"></i></div>
+                <div class="stat-info">
+                    <p class="stat-label">Total Volume Monitored</p>
+                    <h3 class="stat-value" id="totalTxn">2,143,598</h3>
+                </div>
+                <div class="stat-trend up"><i data-lucide="arrow-up-right"></i> 14.2%</div>
+            </div>
+            <div class="stat-card" style="border-top: 4px solid var(--danger);">
+                <div class="stat-icon" style="color: var(--danger); background: var(--danger-light);"><i
+                        data-lucide="alert-octagon"></i></div>
+                <div class="stat-info">
+                    <p class="stat-label">Critical Fraud Prevented</p>
+                    <h3 class="stat-value" id="fraudTxn">4,092</h3>
+                </div>
+                <div class="stat-trend down"><i data-lucide="arrow-down-right"></i> 2.1%</div>
+            </div>
+            <div class="stat-card" style="border-top: 4px solid var(--warning);">
+                <div class="stat-icon" style="color: var(--warning); background: var(--warning-light);"><i
+                        data-lucide="crosshair"></i></div>
+                <div class="stat-info">
+                    <p class="stat-label">Detection Algorithm</p>
+                    <h3 class="stat-value">XGB DMatrix</h3>
+                </div>
+                <div class="stat-trend up" style="color: var(--text-secondary);"><i data-lucide="zap"></i> Latency <
+                        12ms</div>
+                </div>
+                <div class="stat-card" style="border-top: 4px solid var(--success);">
+                    <div class="stat-icon" style="color: var(--success); background: var(--success-light);"><i
+                            data-lucide="check-circle-2"></i></div>
+                    <div class="stat-info">
+                        <p class="stat-label">Accuracy F1 Score</p>
+                        <h3 class="stat-value">97.8%</h3>
+                    </div>
+                    <div class="stat-trend up"><i data-lucide="arrow-up-right"></i> 0.2%</div>
+                </div>
+        </section>
+
+        <!-- Main Dashboard Content Grid -->
+        <div class="dashboard-grid">
+
+            <!-- Left Panel: Analytics & Traffic -->
+            <div class="panel-left">
+
+                <div class="panel-card chart-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Live Transaction Traffic Map</h2>
+                        <select class="form-select" style="width: auto; padding: 0.25rem 2rem 0.25rem 0.5rem;">
+                            <option>Past 24 Hours</option>
+                            <option>Past 7 Days</option>
+                        </select>
+                    </div>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="trafficCurveChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel-card list-card">
+                    <div class="card-header">
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <h2 class="card-title">Recent Flagged Threats</h2>
+                            <span class="live-pulse">LIVE</span>
+                        </div>
+                        <button class="btn btn-outline btn-sm">View All</button>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table" id="liveThreatsTable">
+                            <thead>
+                                <tr>
+                                    <th>Threat ID</th>
+                                    <th>Amount</th>
+                                    <th>Anomaly Factors</th>
+                                    <th>Confidence</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated dynamically by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Advanced Predictor Engine -->
+            <div class="panel-right">
+
+                <div class="panel-card predictor-card" id="predictorSection">
+                    <div class="card-header border-bottom">
+                        <h2 class="card-title">Advanced Manual Predictor</h2>
+                        <p class="card-subtitle">Run a complete analysis against the active XGBoost endpoint.</p>
+                    </div>
+
+                    <form id="aiPredictorForm" class="predictor-form">
+
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label>1. Transaction Amount (₹)</label>
+                                <input type="number" step="0.01" id="in_amount" placeholder="e.g. 5000" required>
+                            </div>
+                            <div class="input-group">
+                                <label>2. Time of Purchase</label>
+                                <select id="in_time_hour" class="form-select" required>
+                                    <option value="9">Morning (09:00 AM)</option>
+                                    <option value="14" selected>Afternoon (02:00 PM)</option>
+                                    <option value="20">Evening (08:00 PM)</option>
+                                    <option value="3">Late Night (03:00 AM) - Suspicious</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-grid" style="margin-top: 1rem;">
+                            <div class="input-group">
+                                <label>3. Distance from Home (km)</label>
+                                <input type="number" step="0.1" id="in_dist_home" placeholder="e.g. 15" required>
+                            </div>
+                            <div class="input-group">
+                                <label>4. Distance from Last Purchase (km)</label>
+                                <input type="number" step="0.1" id="in_dist_last" placeholder="e.g. 2.5" required>
+                            </div>
+                        </div>
+
+                        <div class="input-group" style="margin-top: 1rem;">
+                            <label>5. Spending Behavior (Compared to normal)</label>
+                            <select id="in_ratio" class="form-select" required>
+                                <option value="1.0">Normal, everyday amount (1x)</option>
+                                <option value="3.0">Slightly higher than usual (3x)</option>
+                                <option value="8.0">Very large rare purchase (8x)</option>
+                                <option value="20.0">Massive abnormal amount (20x)</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group" style="margin-top: 1.5rem;">
+                            <label>6. Payment Method Details</label>
+                            <div style="display: flex; gap: 1.5rem; background: #F8FAFC; padding: 1rem; border-radius: 8px; border: 1px solid var(--border); flex-wrap: wrap;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 500; font-size: 0.9rem; cursor: pointer;">
+                                    <input type="checkbox" id="in_online" style="width: 18px; height: 18px; accent-color: var(--primary);"> Online Order
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 500; font-size: 0.9rem; cursor: pointer;">
+                                    <input type="checkbox" id="in_chip" checked style="width: 18px; height: 18px; accent-color: var(--primary);"> Inserted Chip
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 500; font-size: 0.9rem; cursor: pointer;">
+                                    <input type="checkbox" id="in_pin" checked style="width: 18px; height: 18px; accent-color: var(--primary);"> Entered PIN
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-actions" style="margin-top: 1.5rem;">
+                            <button type="submit" class="btn btn-primary btn-block" id="runAnalysisBtn" style="height: 54px; font-size: 1.1rem;">
+                                <span class="btn-text">Check Transaction Risk</span>
+                                <div class="spinner" id="analyzeSpinner"></div>
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Advanced Results Panel -->
+                    <div id="analysisResult" class="analysis-result-box hidden">
+                        <div class="result-top">
+                            <div class="risk-meter" id="riskMeter">
+                                <svg class="circular-chart" viewBox="0 0 36 36">
+                                    <path class="circle-bg"
+                                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <path class="circle" id="riskCirclePath" stroke-dasharray="0, 100"
+                                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <text x="18" y="20.35" class="percentage" id="riskPercentage">0%</text>
+                                </svg>
+                            </div>
+                            <div class="result-verdict">
+                                <h3 id="verdictTitle" class="verdict-title">Processing...</h3>
+                                <p id="verdictSubtitle">Risk score confidence level</p>
+                                <span id="verdictBadge" class="badge">--</span>
+                            </div>
+                        </div>
+
+                        <div class="explainability-box">
+                            <h4><i data-lucide="brain-circuit"></i> AI Explainability Factors:</h4>
+                            <ul id="explainList" class="explain-list">
+                                <!-- Generated by JS -->
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastZone" class="toast-zone"></div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script> lucide.createIcons(); </script>
+</body>
+
+</html>

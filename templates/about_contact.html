@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About & Contact — Washim Shaikh | Software Engineer</title>
+    <meta name="description"
+        content="Learn about Washim Shaikh — a Computer Science engineer passionate about AI, ML, and building intelligent real-world systems. Get in touch for collaborations or opportunities.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* ===== DESIGN TOKENS ===== */
+        :root {
+            --primary:       #2563EB;
+            --primary-hover: #1D4ED8;
+            --primary-light: #EFF6FF;
+            --teal:          #0F766E;
+            --teal-hover:    #0D9488;
+            --teal-light:    #F0FDFA;
+
+            --bg-main:  #F4F7FB;
+            --bg-card:  #FFFFFF;
+
+            --text-strong:   #0F172A;
+            --text-norm:     #334155;
+            --text-light:    #64748B;
+
+            --border:        #E2E8F0;
+            --shadow-sm:     0 1px 2px 0 rgba(0,0,0,0.05);
+            --shadow-card:   0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            --shadow-float:  0 10px 25px -5px rgba(0,0,0,0.08), 0 4px 10px -3px rgba(0,0,0,0.04);
+
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+
+            --font: 'Inter', system-ui, -apple-system, sans-serif;
+
+            --success: #10B981;
+            --success-light: #D1FAE5;
+            --accent: #8B5CF6;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font);
+            background-color: var(--bg-main);
+            color: var(--text-norm);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .top-nav {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-strong);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .badge-accent {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.6rem;
+            border-radius: 4px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 1.5rem 0;
+            position: relative;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover { color: var(--primary); }
+
+        .nav-link.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px 3px 0 0;
+        }
+
+        /* ===== PAGE WRAPPER ===== */
+        .page-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem 6rem;
+            display: flex;
+            flex-direction: column;
+            gap: 5rem;
+        }
+
+        /* ===== SECTION LABELS ===== */
+        .section-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--teal-light);
+            color: var(--teal);
+            padding: 0.35rem 0.875rem;
+            border-radius: 99px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(15, 118, 110, 0.18);
+        }
+
+        .section-eyebrow i { width: 14px; height: 14px; }
+
+        /* ===== ABOUT SECTION ===== */
+        .about-section {
+            display: grid;
+            grid-template-columns: 1fr 1.6fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        /* Left — Identity Card */
+        .identity-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-2xl);
+            padding: 2.5rem 2rem;
+            box-shadow: var(--shadow-float);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1.25rem;
+            position: sticky;
+            top: 100px;
+        }
+
+        .avatar-ring {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--teal));
+            padding: 3px;
+            box-shadow: 0 0 0 6px var(--primary-light);
+        }
+
+        .avatar-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #EFF6FF, #F0FDFA);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .avatar-inner i { width: 48px; height: 48px; }
+
+        .identity-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-strong);
+            letter-spacing: -0.03em;
+        }
+
+        .identity-role {
+            font-size: 0.9rem;
+            color: var(--teal);
+            font-weight: 600;
+            background: var(--teal-light);
+            padding: 0.3rem 0.9rem;
+            border-radius: 99px;
+            border: 1px solid rgba(15,118,110,0.2);
+        }
+
+        .skills-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .skill-tag {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            color: var(--text-norm);
+            padding: 0.25rem 0.7rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.78rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .skill-tag:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .divider {
+            width: 100%;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .quick-stats {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .q-stat {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 0.75rem;
+            text-align: center;
+        }
+
+        .q-stat-value {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .q-stat-label {
+            font-size: 0.72rem;
+            color: var(--text-light);
+            font-weight: 500;
+            margin-top: 0.15rem;
+        }
+
+        /* Right — Story */
+        .about-story {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .about-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--text-strong);
+            letter-spacing: -0.04em;
+            line-height: 1.15;
+        }
+
+        .about-title span {
+            background: linear-gradient(135deg, var(--primary), var(--teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-paragraphs {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .about-paragraphs p {
+            font-size: 1.05rem;
+            color: var(--text-norm);
+            line-height: 1.8;
+        }
+
+        .highlight-word {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Experience Timeline */
+        .experience-block {
+            margin-top: 2.5rem;
+        }
+
+        .experience-block h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-strong);
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .experience-block h3 i {
+            width: 18px;
+            height: 18px;
+            color: var(--teal);
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            border-left: 2px solid var(--border);
+            padding-left: 1.5rem;
+            margin-left: 0.5rem;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+
+        .timeline-item:last-child { padding-bottom: 0; }
+
+        .timeline-dot {
+            position: absolute;
+            left: -1.625rem;
+            top: 0.3rem;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 2px solid var(--primary-light);
+            box-shadow: 0 0 0 3px white;
+        }
+
+        .timeline-dot.active { background: var(--teal); }
+
+        .timeline-period {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .timeline-title {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-strong);
+            margin-top: 0.15rem;
+        }
+
+        .timeline-company {
+            font-size: 0.83rem;
+            color: var(--text-light);
+        }
+
+        /* ===== CONTACT SECTION ===== */
+        .contact-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 3rem;
+        }
+
+        .contact-header {
+            max-width: 640px;
+        }
+
+        .contact-title {
+            font-size: 2.75rem;
+            font-weight: 900;
+            color: var(--text-strong);
+            letter-spacing: -0.04em;
+            line-height: 1.15;
+        }
+
+        .contact-title span {
+            background: linear-gradient(135deg, var(--primary), var(--teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-subtitle {
+            margin-top: 1rem;
+            font-size: 1.05rem;
+            color: var(--text-light);
+            line-height: 1.75;
+        }
+
+        /* Contact Cards Grid */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+            width: 100%;
+            max-width: 780px;
+        }
+
+        .contact-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 1.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            box-shadow: var(--shadow-card);
+            text-decoration: none;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: left;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-float);
+            border-color: var(--primary);
+        }
+
+        .contact-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.25s;
+        }
+
+        .contact-card:hover .contact-card-icon { transform: scale(1.1); }
+
+        .contact-card-icon.email   { background: #EFF6FF; color: #2563EB; }
+        .contact-card-icon.phone   { background: #F0FDF4; color: #16A34A; }
+        .contact-card-icon.github  { background: #F8FAFC; color: #0F172A; }
+        .contact-card-icon.linkedin { background: #EFF6FF; color: #0A66C2; }
+
+        .contact-card-icon i { width: 24px; height: 24px; }
+
+        /* .contact-card-body {} */
+
+        .contact-card-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-light);
+        }
+
+        .contact-card-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-strong);
+            margin-top: 0.2rem;
+            word-break: break-all;
+        }
+
+        /* CTA Button */
+        .cta-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.625rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 0.9rem 2rem;
+            border-radius: var(--radius-lg);
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(37,99,235,0.35);
+        }
+
+        .btn-cta:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37,99,235,0.4);
+        }
+
+        .btn-cta i { width: 18px; height: 18px; }
+
+        .cta-note {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* ===== FADE-IN ANIMATION ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        .fade-in.delay-1 { transition-delay: 0.1s; }
+        .fade-in.delay-2 { transition-delay: 0.2s; }
+        .fade-in.delay-3 { transition-delay: 0.3s; }
+        .fade-in.delay-4 { transition-delay: 0.4s; }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== FOOTER ===== */
+        .page-footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            border-top: 1px solid var(--border);
+        }
+
+        .page-footer a { color: var(--primary); text-decoration: none; font-weight: 500; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .about-section {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .identity-card { position: static; }
+
+            .about-title { font-size: 2rem; }
+            .contact-title { font-size: 2rem; }
+        }
+
+        @media (max-width: 600px) {
+            .page-wrapper { padding: 2.5rem 1.25rem 4rem; gap: 3rem; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .nav-links { gap: 1rem; }
+            .nav-link { font-size: 0.82rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== TOP NAVIGATION ===== -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="logo">
+                <div class="logo-icon">
+                    <i data-lucide="shield-check"></i>
+                </div>
+                <div class="logo-text">FraudGuard <span class="badge-accent">AI ENGINE</span></div>
+            </a>
+
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" class="nav-link">Dashboard</a>
+                <a href="{{ url_for('about_contact') }}" class="nav-link active">About</a>
+                <a href="{{ url_for('about_contact') }}#contact" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== PAGE WRAPPER ===== -->
+    <main class="page-wrapper">
+
+        <!-- ===================== ABOUT SECTION ===================== -->
+        <section id="about" class="about-section">
+
+            <!-- Left: Identity Card -->
+            <div class="identity-card fade-in">
+                <div class="avatar-ring">
+                    <div class="avatar-inner">
+                        <i data-lucide="user"></i>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="identity-name">Washim Shaikh</p>
+                    <p class="identity-role" style="margin-top: 0.5rem;">Aspiring Software Engineer</p>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="skills-tags">
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Java</span>
+                    <span class="skill-tag">Django</span>
+                    <span class="skill-tag">ML / AI</span>
+                    <span class="skill-tag">MySQL</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">C / C++</span>
+                    <span class="skill-tag">Git</span>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="quick-stats">
+                    <div class="q-stat">
+                        <div class="q-stat-value">10+</div>
+                        <div class="q-stat-label">Projects Built</div>
+                    </div>
+                    <div class="q-stat">
+                        <div class="q-stat-value">4</div>
+                        <div class="q-stat-label">Internships</div>
+                    </div>
+                    <div class="q-stat">
+                        <div class="q-stat-value">3+</div>
+                        <div class="q-stat-label">AI/ML Models</div>
+                    </div>
+                    <div class="q-stat">
+                        <div class="q-stat-value">Full</div>
+                        <div class="q-stat-label">Stack Ready</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Story -->
+            <div class="about-story">
+                <div class="fade-in delay-1">
+                    <div class="section-eyebrow">
+                        <i data-lucide="user-check"></i>
+                        About Me
+                    </div>
+                    <h1 class="about-title">
+                        Building things that<br>
+                        <span>actually matter.</span>
+                    </h1>
+                </div>
+
+                <div class="about-paragraphs fade-in delay-2">
+                    <p>
+                        I'm a Computer Science Engineering student with a genuine obsession for writing code that solves
+                        real problems. My work spans <span class="highlight-word">Python, Java, full-stack web
+                        development</span>, and machine learning — but more than the tools, what drives me is the impact.
+                        From building an AI-powered fraud detection engine to designing an e-auction platform that helps
+                        farmers get fair prices for their produce, I gravitate toward projects where the outcome has
+                        tangible, human value.
+                    </p>
+                    <p>
+                        Over the past couple of years, I've shipped over a dozen projects across domains — 
+                        <span class="highlight-word">AgriTrade</span> (my major project connecting farmers directly to
+                        buyers), a medical imaging classifier for brain tumor detection, a driver drowsiness alert system,
+                        a Vision Transformer for image classification, and several full-stack web applications including 
+                        <span class="highlight-word">FinTrackAI</span>, a personal finance tracker. Each build has taught 
+                        me something the textbook couldn't.
+                    </p>
+                    <p>
+                        What keeps me sharp is hands-on experience. I've completed internships in
+                        <span class="highlight-word">AI with Python (Coincent)</span>,
+                        <span class="highlight-word">Machine Learning (Yhills)</span>, and
+                        <span class="highlight-word">Full Stack Development (1Stop)</span>, with an ongoing 
+                        <span class="highlight-word">AWS internship at iStudio</span>. I learn best by building,
+                        breaking, and rebuilding — and I'm always looking for the next problem worth solving.
+                    </p>
+                </div>
+
+                <!-- Experience Timeline -->
+                <div class="experience-block fade-in delay-3">
+                    <h3>
+                        <i data-lucide="briefcase"></i>
+                        Experience
+                    </h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-dot active"></div>
+                            <div class="timeline-period">2024 — Ongoing</div>
+                            <div class="timeline-title">AWS Cloud Internship</div>
+                            <div class="timeline-company">iStudio Technologies</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-period">2024</div>
+                            <div class="timeline-title">Full Stack Development Internship</div>
+                            <div class="timeline-company">1Stop</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-period">2023</div>
+                            <div class="timeline-title">Machine Learning Internship</div>
+                            <div class="timeline-company">Yhills</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-period">2023</div>
+                            <div class="timeline-title">AI with Python Internship</div>
+                            <div class="timeline-company">Coincent</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== CONTACT SECTION ===================== -->
+        <section id="contact" class="contact-section">
+
+            <div class="contact-header fade-in">
+                <div class="section-eyebrow" style="justify-content: center;">
+                    <i data-lucide="mail"></i>
+                    Get In Touch
+                </div>
+                <h2 class="contact-title">
+                    Let's Build Something<br>
+                    <span>Great Together.</span>
+                </h2>
+                <p class="contact-subtitle">
+                    I'm open to full-time roles, internships, freelance collaborations, and interesting
+                    project conversations. If you've got an idea worth building — I'd love to hear it.
+                </p>
+            </div>
+
+            <div class="contact-grid fade-in delay-1">
+                <a href="mailto:washimshaikh33@gmail.com" class="contact-card">
+                    <div class="contact-card-icon email">
+                        <i data-lucide="mail"></i>
+                    </div>
+                    <div class="contact-card-body">
+                        <div class="contact-card-label">Email</div>
+                        <div class="contact-card-value">washimshaikh33@gmail.com</div>
+                    </div>
+                </a>
+
+                <a href="tel:+918884958185" class="contact-card">
+                    <div class="contact-card-icon phone">
+                        <i data-lucide="phone"></i>
+                    </div>
+                    <div class="contact-card-body">
+                        <div class="contact-card-label">Phone</div>
+                        <div class="contact-card-value">+91 88849 58185</div>
+                    </div>
+                </a>
+
+                <a href="https://github.com/Washim-8" target="_blank" rel="noopener" class="contact-card">
+                    <div class="contact-card-icon github">
+                        <i data-lucide="github"></i>
+                    </div>
+                    <div class="contact-card-body">
+                        <div class="contact-card-label">GitHub</div>
+                        <div class="contact-card-value">github.com/Washim-8</div>
+                    </div>
+                </a>
+
+                <a href="https://www.linkedin.com/in/washim-shaikh-349868281/" target="_blank" rel="noopener" class="contact-card">
+                    <div class="contact-card-icon linkedin">
+                        <i data-lucide="linkedin"></i>
+                    </div>
+                    <div class="contact-card-body">
+                        <div class="contact-card-label">LinkedIn</div>
+                        <div class="contact-card-value">Washim Shaikh</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="cta-block fade-in delay-2">
+                <a href="mailto:washimshaikh33@gmail.com" class="btn-cta">
+                    <i data-lucide="send"></i>
+                    Send Me a Message
+                </a>
+                <p class="cta-note">Usually responds within 24 hours.</p>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="page-footer">
+        <p>Designed & built by <a href="#">Washim Shaikh</a> · 
+           <a href="{{ url_for('index') }}">Back to Dashboard</a></p>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // Init Lucide icons
+        lucide.createIcons();
+
+        // Scroll-based fade-in observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>
