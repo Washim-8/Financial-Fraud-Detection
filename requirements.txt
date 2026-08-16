@@ -5,3 +5,4 @@ flask
 imbalanced-learn
 joblib
 xgboost
+gunicorn
