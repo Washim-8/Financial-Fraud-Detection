@@ -1,5 +1,8 @@
 import os
+import threading
+import time
 import traceback
+import urllib.request
 import joblib
 import numpy as np
 from flask import Flask, render_template, request, jsonify
@@ -33,6 +36,43 @@ def load_ml_objects():
         print("⚠️ Model files not found. Run train_model.py first.")
 
 load_ml_objects()
+
+# ── Health Check Routes (required by Render) ──────────────────────────────────
+@app.route('/health', methods=['GET'])
+@app.route('/healthz', methods=['GET'])
+def health():
+    """Lightweight health check — must return 200 in < 2s. No DB or model calls."""
+    return jsonify({"status": "healthy"}), 200
+
+
+# ── Keep-Alive Thread (prevents Render free-tier sleep) ───────────────────────
+def _keep_alive():
+    """
+    Daemon thread that self-pings /health every 10 minutes.
+    Prevents Render free-tier from spinning down after 15 min of inactivity.
+    Uses RENDER_EXTERNAL_URL (auto-injected by Render) — safe to skip locally.
+    """
+    render_url = os.environ.get("RENDER_EXTERNAL_URL", "").rstrip("/")
+    if not render_url:
+        return  # Not on Render — skip silently during local development
+
+    ping_url = f"{render_url}/health"
+    print(f"[KeepAlive] Self-ping enabled → {ping_url} every 10 min")
+
+    time.sleep(30)  # Wait for Gunicorn to fully start before first ping
+
+    while True:
+        try:
+            with urllib.request.urlopen(ping_url, timeout=10) as resp:
+                print(f"[KeepAlive] Pinged → HTTP {resp.status}")
+        except Exception as exc:
+            print(f"[KeepAlive] Ping failed: {exc}")
+        time.sleep(600)  # 10 minutes
+
+
+_keep_alive_thread = threading.Thread(target=_keep_alive, name="keep-alive", daemon=True)
+_keep_alive_thread.start()
+
 
 @app.route('/')
 def index():
