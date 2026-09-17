@@ -1,4 +1,5 @@
 import os
+import sys
 import threading
 import time
 import traceback
@@ -7,13 +8,31 @@ import joblib
 import numpy as np
 from flask import Flask, render_template, request, jsonify
 
+if sys.platform.startswith('win'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+        sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+
+def safe_print(msg):
+    try:
+        print(msg)
+    except (UnicodeEncodeError, OSError):
+        try:
+            print(msg.encode('ascii', 'replace').decode('ascii'))
+        except Exception:
+            pass
+
 app = Flask(__name__)
 
-# Paths
-MODEL_PATH = 'models/model.pkl'
-SCALER_PATH = 'models/scaler.pkl'
-FEATURES_PATH = 'models/feature_names.pkl'
-IMPORTANCE_PATH = 'models/feature_importances.pkl'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Paths (cross-platform, Render/Linux compatible)
+MODEL_PATH = os.path.join(BASE_DIR, 'models', 'model.pkl')
+SCALER_PATH = os.path.join(BASE_DIR, 'models', 'scaler.pkl')
+FEATURES_PATH = os.path.join(BASE_DIR, 'models', 'feature_names.pkl')
+IMPORTANCE_PATH = os.path.join(BASE_DIR, 'models', 'feature_importances.pkl')
 
 model = None
 scaler = None
@@ -29,11 +48,11 @@ def load_ml_objects():
             feature_names = joblib.load(FEATURES_PATH)
             if os.path.exists(IMPORTANCE_PATH):
                 feature_importances = joblib.load(IMPORTANCE_PATH)
-            print("✅ AI Models & Scalers loaded successfully.")
+            safe_print("✅ AI Models & Scalers loaded successfully.")
         except Exception as e:
-            print(f"❌ Error loading model: {e}")
+            safe_print(f"❌ Error loading model: {e}")
     else:
-        print("⚠️ Model files not found. Run train_model.py first.")
+        safe_print("⚠️ Model files not found. Run train_model.py first.")
 
 load_ml_objects()
 
@@ -57,16 +76,16 @@ def _keep_alive():
         return  # Not on Render — skip silently during local development
 
     ping_url = f"{render_url}/health"
-    print(f"[KeepAlive] Self-ping enabled → {ping_url} every 10 min")
+    safe_print(f"[KeepAlive] Self-ping enabled → {ping_url} every 10 min")
 
     time.sleep(30)  # Wait for Gunicorn to fully start before first ping
 
     while True:
         try:
             with urllib.request.urlopen(ping_url, timeout=10) as resp:
-                print(f"[KeepAlive] Pinged → HTTP {resp.status}")
+                safe_print(f"[KeepAlive] Pinged → HTTP {resp.status}")
         except Exception as exc:
-            print(f"[KeepAlive] Ping failed: {exc}")
+            safe_print(f"[KeepAlive] Ping failed: {exc}")
         time.sleep(600)  # 10 minutes
 
 
@@ -168,7 +187,7 @@ def predict():
         })
         
     except Exception as e:
-        print(traceback.format_exc())
+        safe_print(traceback.format_exc())
         return jsonify({"error": str(e)}), 400
 
 if __name__ == '__main__':
